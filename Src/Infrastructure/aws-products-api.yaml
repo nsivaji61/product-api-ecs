@@ -44,7 +44,7 @@ Resources:
       ContainerDefinitions:
         - Name: product-service
           Essential: true
-          Image: 314874154021.dkr.ecr.us-east-1.amazonaws.com/products-repo:latest
+          Image: [Your Account].ecr.us-east-1.amazonaws.com/products-repo:latest
           Memory: 128
           PortMappings:
             - ContainerPort: 80
