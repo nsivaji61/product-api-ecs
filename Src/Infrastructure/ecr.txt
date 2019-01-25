@@ -1,0 +1,16 @@
+aws ecr create-repository --repository-name products-repo
+
+{
+    "repository": {
+        "repositoryArn": "arn:aws:ecr:us-east-1:[Your Account]:repository/products-repo",
+        "registryId": "YOUR account ID",
+        "repositoryName": "products-repo",
+        "repositoryUri": "[Your Account].dkr.ecr.us-east-1.amazonaws.com/products-repo",
+        "createdAt": 1547511787.0
+    }
+}
+
+docker tag products [YourAccount].dkr.ecr.us-east-1.amazonaws.com/products-repo
+
+
+docker push [Your Account].dkr.ecr.us-east-1.amazonaws.com/products-repo:latest

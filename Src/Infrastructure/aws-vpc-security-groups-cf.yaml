@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Security groups for aws ecs and elastic load balancer
+Parameters: 
+  Environment:
+    Description: Select Environment
+    Type: String
+    Default: Dev
+    AllowedValues:
+      - Dev
+      - Qa
+      - Prod
+  VPC:
+    Description: Select VPC Id
+    Type: AWS::EC2::VPC::Id
+Resources: 
+  LoadBalancerSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Elb Security group that allows traffic from anywhere
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: -1 
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Sub ${Environment} Load balancer
+  ECSSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group that allows ingress traffic from elb
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - SourceSecurityGroupId: !Ref LoadBalancerSG
+          IpProtocol: -1
+      Tags:
+        - Key: Name
+          Value: !Sub ${Environment} ECS SG
+Outputs:
+  ECSSG:
+    Description: A reference to the security group for ECS hosts
+    Value: !Ref ECSSG
+
+  LoadBalancerSG:
+    Description: A reference to the security group for load balancers
+    Value: !Ref LoadBalancerSG
